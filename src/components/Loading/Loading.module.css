@@ -1,0 +1,11 @@
+.loading {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+        width: 48px;
+        height: 60px;
+    }
+}

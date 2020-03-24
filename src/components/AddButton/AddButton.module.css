@@ -1,0 +1,33 @@
+.add-button {
+    position: absolute;
+    background-color: var(--color-blue);
+    border-radius: 8px;
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    top: 10px;
+    right: 10px;
+    height: 45px;
+    transition: background-color 0.15s linear;
+
+    &:hover {
+        background-color: var(--color-blue-light);
+    }
+
+    &:active {
+        background-color: var(--color-blue-dark);
+    }
+
+    svg {
+        margin-right: 10px;
+    }
+
+    @media screen and (max-width: 480px) {
+        top: auto;
+        right: auto;
+        bottom: 10px;
+        z-index: 1;
+        align-self: center;
+    }
+}

@@ -1,0 +1,11 @@
+.map-box {
+    flex: 1;
+    position: relative;
+}
+
+.map {
+    position: absolute !important;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+}

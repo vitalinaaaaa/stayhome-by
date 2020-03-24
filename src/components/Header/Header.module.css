@@ -1,0 +1,7 @@
+.header {
+    background-color: var(--color-gray);
+    padding: 15px 25px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+}
