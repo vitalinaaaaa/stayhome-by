@@ -1,7 +1,14 @@
 import Leaflet from 'leaflet'
 import 'leaflet.markercluster/dist/leaflet.markercluster'
 
-import { API_BASE_URL, MAP_INITIAL_ZOOM, MAX_MAX_ZOOM, MAP_CLUSTER_S_MAX, MAP_CLUSTER_M_MAX } from '@config/constants'
+import {
+  API_BASE_URL,
+  MAP_INITIAL_ZOOM,
+  MAP_MAX_ZOOM,
+  MAP_MAX_CLUSTERING_ZOOM,
+  MAP_CLUSTER_S_MAX,
+  MAP_CLUSTER_M_MAX
+} from '@config/constants'
 import { MAP_ACCESS_TOKEN, MAP_STYLE } from '@config/keys'
 
 let map = null
@@ -10,7 +17,7 @@ export function initMap(id, location) {
   map = Leaflet.map(id, {
     center: location,
     zoom: MAP_INITIAL_ZOOM,
-    maxZoom: 20
+    maxZoom: MAP_MAX_ZOOM
   })
 
   Leaflet.mapboxGL({
@@ -34,7 +41,7 @@ export function createPeopleLayer(items) {
 
   const markers = Leaflet.markerClusterGroup({
     spiderfyOnMaxZoom: true,
-    disableClusteringAtZoom: MAX_MAX_ZOOM,
+    disableClusteringAtZoom: MAP_MAX_CLUSTERING_ZOOM,
     iconCreateFunction: cluster => {
       const count = cluster.getChildCount()
 
