@@ -55,7 +55,8 @@ export function createPeopleLayer(items) {
   items.forEach(item => {
     const icon = Leaflet.divIcon({
       className: 'avatar-box',
-      html: `<div class="avatar" style="background-image:url('${API_BASE_URL}${item.atlas}'); background-position:-${item.x}px -${item.y}px;" />`
+      html: `<div class="avatar" style="background-image:url('${API_BASE_URL}${item.atlas}'); background-position:-${item.x}px -${item.y}px;"></div>
+            ${item.message ? `<span class="message">${item.message}</span>` : ''}`
     })
     icon.options.iconSize = [48, 48]
 

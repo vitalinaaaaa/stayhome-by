@@ -51,6 +51,22 @@ button {
         border-radius: 50%;
         border: 2px solid var(--color-blue);
     }
+
+    .message {
+        position: absolute;
+        right: -10px;
+        top: 24px;
+        transform: translateX(100%) translateY(-50%);
+        background-color: var(--color-gray);
+        padding: 15px;
+        border-radius: 10px;
+        font: var(--text-regular-small);
+        min-width: 200px;
+
+        @media screen and (max-width: 667px) {
+            font: var(--text-regular-tiny);
+        }
+    }
 }
 
 .cluster {
