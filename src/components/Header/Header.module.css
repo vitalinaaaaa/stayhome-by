@@ -11,6 +11,8 @@
         color: var(--color-blue);
         transition: 0.15s color linear, 0.2s opacity linear;
         opacity: 0;
+        margin-right: 39px;
+        line-height: 1.4;
 
         &.link-visible {
             opacity: 1;
@@ -22,6 +24,10 @@
 
         &:active {
             color: var(--color-blue-dark);
+        }
+
+        span {
+            white-space: nowrap;
         }
     }
 

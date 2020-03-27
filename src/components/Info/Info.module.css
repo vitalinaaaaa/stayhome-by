@@ -10,6 +10,7 @@
     left: 25px;
     border-radius: 50%;
     background-color: var(--color-blue);
+    box-shadow: 0 3px 12px 0 rgba(38, 47, 54, 0.5);
     transition: 0.15s background-color linear;
 
     &:hover {
@@ -59,7 +60,7 @@
     }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 570px) {
     .info-button {
         bottom: auto;
         left: auto;

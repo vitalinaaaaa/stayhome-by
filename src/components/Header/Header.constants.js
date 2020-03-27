@@ -1,0 +1,2 @@
+export const ANIMATION_DURATION = 200
+export const SHOW_MOLA_MOLA_TIMEOUT = 3000

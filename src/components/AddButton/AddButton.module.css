@@ -23,7 +23,7 @@
         margin-right: 10px;
     }
 
-    @media screen and (max-width: 480px) {
+    @media screen and (max-width: 570px) {
         top: auto;
         right: auto;
         bottom: 10px;

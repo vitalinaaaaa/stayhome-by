@@ -1,32 +1,55 @@
 import React, { memo, useEffect, useState } from 'react'
 import classnames from 'classnames'
 
+import { ANIMATION_DURATION, SHOW_MOLA_MOLA_TIMEOUT } from './Header.constants'
 import styles from './Header.module.css'
 
 function Header({ count }) {
-  const [showMolaMola, setShowMolaMola] = useState(false)
+  const [visibleMolaMola, setVisibleMolaMola] = useState(false)
+  const [hiddenCount, setHiddenCount] = useState(false)
 
   useEffect(() => {
+    let animationTimeout = null
+    let hideCountTimeout = null
+
     if (count) {
-      setTimeout(() => {
-        setShowMolaMola(true)
-      }, 3000)
+      hideCountTimeout = setTimeout(() => {
+        hideCountTimeout = null
+        setVisibleMolaMola(true)
+
+        animationTimeout = setTimeout(() => {
+          animationTimeout = null
+          setHiddenCount(true)
+        }, ANIMATION_DURATION)
+      }, SHOW_MOLA_MOLA_TIMEOUT)
+    }
+
+    return () => {
+      if (animationTimeout) {
+        clearTimeout(animationTimeout)
+      }
+
+      if (hideCountTimeout) {
+        clearTimeout(hideCountTimeout)
+      }
     }
   }, [count])
 
   const linkClass = classnames(styles.link, {
-    [styles['link-visible']]: showMolaMola
+    [styles['link-visible']]: visibleMolaMola
   })
   const countClass = classnames(styles.count, {
-    [styles['count-visible']]: count && !showMolaMola
+    [styles['count-visible']]: count && !visibleMolaMola
   })
 
   return (
     <header className={styles.header}>
+      {!hiddenCount && (
+        <span className={countClass}>Нас уже {count}!</span>
+      )}
       <a className={linkClass} href="https://molamola.by/campaigns?category_id=10&sort=popular">
-        Поддержать наших медиков 👨‍⚕️👩‍⚕️
+        Поддержать наших медиков <span>👨‍⚕️👩‍⚕️</span>
       </a>
-      <span className={countClass}>Нас уже {count}!</span>
     </header>
   )
 }

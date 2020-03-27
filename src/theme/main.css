@@ -45,6 +45,11 @@ button {
 }
 
 .avatar-box {
+
+    &:hover {
+        z-index: 9999999999 !important;
+    }
+
     .avatar {
         width: 48px;
         height: 48px;
@@ -61,7 +66,8 @@ button {
         padding: 15px;
         border-radius: 10px;
         font: var(--text-regular-small);
-        min-width: 200px;
+        min-width: 190px;
+        box-shadow: 0 3px 12px 0 rgba(38, 47, 54, 0.5);
 
         @media screen and (max-width: 667px) {
             font: var(--text-regular-tiny);
