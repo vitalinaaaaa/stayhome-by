@@ -67,6 +67,8 @@ button {
         border-radius: 10px;
         font: var(--text-regular-small);
         min-width: 190px;
+        max-width: 400px;
+        word-break: break-word;
         box-shadow: 0 3px 12px 0 rgba(38, 47, 54, 0.5);
 
         @media screen and (max-width: 667px) {

@@ -53,10 +53,14 @@ export function createPeopleLayer(items) {
   })
 
   items.forEach(item => {
+    const text = item.message
+      ? String(item.message).replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+      : ''
+
     const icon = Leaflet.divIcon({
       className: 'avatar-box',
       html: `<div class="avatar" style="background-image:url('${API_BASE_URL}${item.atlas}'); background-position:-${item.x}px -${item.y}px;"></div>
-            ${item.message ? `<span class="message">${item.message}</span>` : ''}`
+            ${text ? `<span class="message">${text}</span>` : ''}`
     })
     icon.options.iconSize = [48, 48]
 
