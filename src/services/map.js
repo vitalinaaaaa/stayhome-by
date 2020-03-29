@@ -9,21 +9,22 @@ import {
   MAP_CLUSTER_S_MAX,
   MAP_CLUSTER_M_MAX
 } from '@config/constants'
-import { MAP_ACCESS_TOKEN, MAP_STYLE } from '@config/keys'
 
 let map = null
 
 export function initMap(id, location) {
+
   map = Leaflet.map(id, {
     center: location,
     zoom: MAP_INITIAL_ZOOM,
-    maxZoom: MAP_MAX_ZOOM
+    maxZoom: MAP_MAX_ZOOM,
+    nowrap: true
   })
 
-  Leaflet.mapboxGL({
-    accessToken: MAP_ACCESS_TOKEN,
-    style: MAP_STYLE
-  }).addTo(map)
+  Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    nowrap: true,
+  }).addTo(map);
 }
 
 export function createPeopleLayer(items) {
@@ -41,6 +42,7 @@ export function createPeopleLayer(items) {
 
   const markers = Leaflet.markerClusterGroup({
     spiderfyOnMaxZoom: true,
+    maxZoom: 3,
     disableClusteringAtZoom: MAP_MAX_CLUSTERING_ZOOM,
     iconCreateFunction: cluster => {
       const count = cluster.getChildCount()
@@ -64,4 +66,5 @@ export function createPeopleLayer(items) {
   })
 
   map.addLayer(markers, { chunkedLoading: true })
+
 }
