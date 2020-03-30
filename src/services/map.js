@@ -9,7 +9,6 @@ import {
   MAP_CLUSTER_S_MAX,
   MAP_CLUSTER_M_MAX
 } from '@config/constants'
-import { MAP_ACCESS_TOKEN, MAP_STYLE } from '@config/keys'
 
 let map = null
 
@@ -20,10 +19,10 @@ export function initMap(id, location) {
     maxZoom: MAP_MAX_ZOOM
   })
 
-  Leaflet.mapboxGL({
-    accessToken: MAP_ACCESS_TOKEN,
-    style: MAP_STYLE
-  }).addTo(map)
+  Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
 }
 
 export function createPeopleLayer(items) {
@@ -55,12 +54,15 @@ export function createPeopleLayer(items) {
   items.forEach(item => {
     const icon = Leaflet.divIcon({
       className: 'avatar-box',
-      html: `<div class="avatar" style="background-image:url('${API_BASE_URL}${item.atlas}'); background-position:-${item.x}px -${item.y}px;"></div>
-            ${item.message ? `<span class="message">${item.message}</span>` : ''}`
+      html: `<div class="avatar" style="background-image:url('${API_BASE_URL}${item.atlas}'); background-position:-${item.x}px -${item.y}px;"></div>`
     })
     icon.options.iconSize = [48, 48]
-
-    markers.addLayer(new Leaflet.marker(new Leaflet.LatLng(item.lat, item.long), { icon }))
+    const marker = new Leaflet.marker(new Leaflet.LatLng(item.lat, item.long), { icon });
+   
+    var popup = Leaflet.popup()
+    .setContent(`<div style="background-size:79680px; background-image:url('${API_BASE_URL}${item.atlas}'); background-position:-${item.x * 16.6}px -${item.y * 16.6}px;"></div>`);
+    marker.bindPopup(popup);
+    markers.addLayer(marker);
   })
 
   map.addLayer(markers, { chunkedLoading: true })

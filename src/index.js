@@ -3,10 +3,6 @@ import ReactDOM from 'react-dom'
 
 import 'leaflet/dist/leaflet.css'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
-import 'mapbox-gl/dist/mapbox-gl.css'
-
-import 'mapbox-gl-leaflet'
-import 'mapbox-gl/dist/mapbox-gl'
 
 import './theme/init.css'
 
