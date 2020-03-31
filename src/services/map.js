@@ -26,26 +26,26 @@ export function initMap(id, location) {
 }
 
 export function createPeopleLayer(items) {
-  if (items.length === 0) {
-    items.push(
-      {"id":3,
-      "atlas":"/images/avatars_part_0.jpg",
-      "img": "/kazbek.jpg", 
-      "x":96,
-      "y":0,
-      "description": "Помочь нам можно, перечислив деньги на счет NN234234234",
-      "phone": "+375111111111",
-      "lat":53.909151,
-      "long":30.330195,
-      "name": "Имя Компании",
-      "address": "Могилев, улица Строителей, д.12, кв.12",
-      "donateCount": "2",
-      "donateAmount": "210",
-      "lastUpdateTime": "12.03.2020",
-      "instagramLink": "https://www.instagram.com/artyom.yakovlev.52/?hl=ru",
-      "helpType": 2,
-    });
-  }
+  // if (items.length === 0) {
+  //   items.push(
+  //     {"id":3,
+  //     "atlas":"/images/avatars_part_0.jpg",
+  //     "img": "/kazbek.jpg", 
+  //     "x":96,
+  //     "y":0,
+  //     "description": "Помочь нам можно, перечислив деньги на счет NN234234234",
+  //     "phone": "+375111111111",
+  //     "lat":53.909151,
+  //     "long":30.330195,
+  //     "name": "Имя Компании",
+  //     "address": "Могилев, улица Строителей, д.12, кв.12",
+  //     "donateCount": "2",
+  //     "donateAmount": "210",
+  //     "lastUpdateTime": "12.03.2020",
+  //     "instagramLink": "https://www.instagram.com/artyom.yakovlev.52/?hl=ru",
+  //     "helpType": 2,
+  //   });
+  // }
 
   function getSize(count) {
     if (count <= MAP_CLUSTER_S_MAX) {
@@ -79,7 +79,7 @@ export function createPeopleLayer(items) {
       html: `<div class="avatar" style="background-size: cover; background-image:url('/kazbek.jpg')"></div>`
     })
     icon.options.iconSize = [48, 48]
-    const marker = new Leaflet.marker(new Leaflet.LatLng(item.lat, item.long), { icon });
+    const marker = new Leaflet.marker(new Leaflet.LatLng(item.latitude, item.longitude), { icon });
     var popup = Leaflet.popup()
     .setContent(`
     <div class='company' style="background-size: cover; background-image:url('/kazbek.jpg')">

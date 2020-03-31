@@ -8,6 +8,7 @@ import { marker } from 'leaflet';
 const ID = 'map'
 
 function Map({ location, markers }) {
+  console.log(markers);
   useEffect(() => {
     initMap(ID, location)
     createPeopleLayer(markers)
