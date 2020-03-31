@@ -3,6 +3,7 @@ import React, { memo, useEffect } from 'react'
 import { createPeopleLayer, initMap } from '@services/map'
 
 import styles from './Map.module.css'
+import { marker } from 'leaflet';
 
 const ID = 'map'
 

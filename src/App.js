@@ -11,13 +11,13 @@ import endpoints from '@config/endpoints'
 
 function App() {
   const [markers, setMarkers] = useState([])
-  const [initialLocation, setInitialLocation] = useState(null)
+  const [initialLocation, setInitialLocation] = useState([53.878684, 30.332915])
 
   useEffect(() => {
     getApi(endpoints.markers)
       .then(result => {
-        setMarkers(result.markers)
-        setInitialLocation(result.location)
+        setMarkers(result.length > 0 ? result : [{"id":3,"atlas":"/images/avatars_part_0.jpg","x":96,"y":0,"lat":53.909151,"long":30.330195,"message":"Ура!"}])
+        setInitialLocation(initialLocation)
       })
       .catch(err => {
         // TODO handle error

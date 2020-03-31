@@ -61,11 +61,11 @@ button {
     text-align: center;
 }
 
-.leaflet-popup-content div {
+.leaflet-popup-content > div {
     width: 48px;
     height: 48px;
     display: table-cell;
-    vertical-align: middle;
+
     border-radius: 50%;
 
 }
@@ -127,4 +127,60 @@ button {
     &.cluster-l {
         background-color: var(--color-cluster-l);
     }
+}
+
+.company{
+    margin-top: 20px;
+    font-size:40px;
+    color:white;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.company .company-info {
+    margin-top: 80px;
+}
+
+.company .donation-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 200px;
+    padding-left:10px;
+    padding-right:10px;
+    border-bottom: 5px solid white;
+}
+
+.company .description-info {
+    margin-top: 50px;
+    margin-left:40px;
+    margin-right: 40px;
+    overflow-wrap: break-word;
+    color:white;
+}
+
+.company .company-info .company-address {
+    margin-top:10px;
+    font-size: 20px;
+}
+
+
+.social-media-info{
+    width: 100%;
+    position: absolute;
+    bottom: 20px;
+}
+
+.instagram {
+    color:red;
+    background-image: url('/instagram.png');
+}
+
+.number-of-donaters{
+    color:red;
+}
+
+.donate-amount{
+    color:red;
 }
