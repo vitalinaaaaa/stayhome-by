@@ -1,5 +1,5 @@
 const endpoints = {
-  markers: 'markers.json'
+  markers: 'businesses'
 }
 
 export default endpoints

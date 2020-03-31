@@ -51,10 +51,11 @@ button {
     }
 
     .avatar {
-        width: 48px;
-        height: 48px;
+        z-index: 9999999;
+        width: 70px;
+        height: 70px;
         border-radius: 50%;
-        border: 2px solid var(--color-blue);
+        border: 2px solid var(--color-red);
     }
 
     .message {
@@ -97,4 +98,124 @@ button {
     &.cluster-l {
         background-color: var(--color-cluster-l);
     }
+}
+
+.company{
+    margin-top: 20px;
+    font-size:40px;
+    color:white;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.company .company-info {
+    margin-top: 80px;
+}
+
+.company .donation-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 200px;
+    padding-left:10px;
+    padding-right:10px;
+    border-bottom: 5px solid white;
+}
+
+.company .description-info {
+    margin-top: 50px;
+    margin-left:40px;
+    margin-right: 40px;
+    overflow-wrap: break-word;
+    color:white;
+}
+
+.company .company-info .company-address {
+    margin-top:10px;
+    font-size: 20px;
+}
+
+
+.social-media-info{
+    width: 100%;
+    position: absolute;
+    bottom: 20px;
+}
+
+.instagram {
+    color:red;
+    background-image: url('/instagram.png');
+}
+
+.number-of-donaters{
+    color:red;
+}
+
+.donate-amount{
+    color:red;
+}
+
+.leaflet-popup-pane{
+    z-index: 200 !important;
+}
+
+.leaflet-popup{
+    bottom:-53px !important;
+    left: -5px !important;
+}
+
+.leaflet-popup-content-wrapper{
+    width: 180px;
+    height: 68px;
+    background-color: #35303B;
+    border-radius: 0px 30px 30px 0px;
+    border: 2px solid #6B6473;
+    position: relative;
+}
+
+.leaflet-popup-content{
+    width: 100% !important;
+    height: 100% !important;
+    margin-top:3px;
+    margin-left:45px;
+    padding:0;
+    border-radius: 50%;
+}
+
+.leaflet-popup-tip-container{
+    visibility: hidden;
+}
+
+.leaflet-popup-close-button{
+    visibility: hidden;
+}
+
+.popup-company-name{
+    padding-top:3px;
+    padding-bottom:3px;
+    color:white;
+}
+
+.popup-donation-amount{
+    color:#606973;
+}
+
+
+.popup-donate-users{
+    margin-left:10px;
+}
+
+.popup-status-text{
+    margin-top:3px;
+    color:red;
+}
+
+.currentMarkerDetails{
+    height: 100%;
+    width: 500px;
+    position: absolute;
+    background-color: #35303B;
+    z-index: 9999;
+    top:58px;
 }

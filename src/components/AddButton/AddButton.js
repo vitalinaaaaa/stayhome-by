@@ -8,12 +8,11 @@ function AddButton() {
   return (
     <a
       className={styles['add-button']}
-      href="https://t.me/i_home_bot"
+      href="#"
       rel="noopener noreferrer"
-      target="_blank"
     >
       <Icon />
-      <span>Добавить себя</span>
+      <span>Связаться</span>
     </a>
   )
 }
