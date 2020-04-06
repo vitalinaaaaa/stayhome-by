@@ -1,14 +1,8 @@
 import Leaflet from 'leaflet'
-import 'leaflet.markercluster/dist/leaflet.markercluster'
+import * as PIXI from 'pixi.js'
+import 'leaflet-pixi-overlay/L.PixiOverlay.min'
 
-import {
-  API_BASE_URL,
-  MAP_INITIAL_ZOOM,
-  MAP_MAX_ZOOM,
-  MAP_MAX_CLUSTERING_ZOOM,
-  MAP_CLUSTER_S_MAX,
-  MAP_CLUSTER_M_MAX
-} from '@config/constants'
+import { API_BASE_URL, MAP_INITIAL_ZOOM, MAP_MAX_ZOOM } from '@config/constants'
 import { MAP_ACCESS_TOKEN, MAP_STYLE } from '@config/keys'
 
 let map = null
@@ -27,45 +21,64 @@ export function initMap(id, location) {
 }
 
 export function createPeopleLayer(items) {
-  function getSize(count) {
-    if (count <= MAP_CLUSTER_S_MAX) {
-      return 's'
-    }
+  // const pixiOverlay = Leaflet.pixiOverlay(function(utils) {
+  //   // your drawing code here
+  // }, new PIXI.Container())
 
-    if (count <= MAP_CLUSTER_M_MAX) {
-      return 'm'
-    }
+  let loader = new PIXI.Loader()
+  loader.add('marker', `${API_BASE_URL}${items[0].atlas}`);
+  loader.load(function(loader, resources) {
+    console.log(resources)
+    var markerTexture = resources.marker.texture;
+    var markerLatLng = [51.5, -0.09];
+    var marker = new PIXI.Sprite(markerTexture);
+    marker.anchor.set(0.5, 1);
 
-    return 'l'
-  }
+    var pixiContainer = new PIXI.Container();
+    pixiContainer.addChild(marker);
 
-  const markers = Leaflet.markerClusterGroup({
-    spiderfyOnMaxZoom: true,
-    disableClusteringAtZoom: MAP_MAX_CLUSTERING_ZOOM,
-    iconCreateFunction: cluster => {
-      const count = cluster.getChildCount()
+    var firstDraw = true;
+    var prevZoom;
 
-      return Leaflet.divIcon({
-        className: 'cluster-box',
-        html: `<div class="cluster cluster-${getSize(count)}">${count}</div>`
-      })
-    }
-  })
+    var pixiOverlay = Leaflet.pixiOverlay(function(utils) {
+      var zoom = utils.getMap().getZoom();
+      var container = utils.getContainer();
+      var renderer = utils.getRenderer();
+      var project = utils.latLngToLayerPoint;
+      var scale = utils.getScale();
 
-  items.forEach(item => {
-    const text = item.message
-      ? String(item.message).replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
-      : ''
+      if (firstDraw) {
+        var markerCoords = project(markerLatLng);
+        marker.x = markerCoords.x;
+        marker.y = markerCoords.y;
+      }
 
-    const icon = Leaflet.divIcon({
-      className: 'avatar-box',
-      html: `<div class="avatar" style="background-image:url('${API_BASE_URL}${item.atlas}'); background-position:-${item.x}px -${item.y}px;"></div>
-            ${text ? `<span class="message">${text}</span>` : ''}`
-    })
-    icon.options.iconSize = [48, 48]
+      if (firstDraw || prevZoom !== zoom) {
+        marker.scale.set(1 / scale);
+      }
 
-    markers.addLayer(new Leaflet.marker(new Leaflet.LatLng(item.lat, item.long), { icon }))
-  })
+      firstDraw = false;
+      prevZoom = zoom;
+      renderer.render(container);
+    }, pixiContainer);
 
-  map.addLayer(markers, { chunkedLoading: true })
+    pixiOverlay.addTo(map);
+  });
+
+  // const markers = items.map(item => {
+  //   const text = item.message
+  //     ? String(item.message).replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+  //     : ''
+  //
+  //   const icon = Leaflet.divIcon({
+  //     className: 'avatar-box',
+  //     html: `<div class="avatar" style="background-image:url('${API_BASE_URL}${item.atlas}'); background-position:-${item.x}px -${item.y}px;"></div>
+  //           ${text ? `<span class="message">${text}</span>` : ''}`
+  //   })
+  //   icon.options.iconSize = [48, 48]
+  //
+  //   return Leaflet.marker(new Leaflet.LatLng(item.lat, item.long), { icon })
+  // })
+  //
+  // Leaflet.layerGroup(markers).addTo(map)
 }
