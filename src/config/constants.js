@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'http://localhost:3001'
+export const API_BASE_URL = 'http://api.ядома.бел'
 
 export const MAP_INITIAL_ZOOM = 12
 export const MAP_MIN_ZOOM = 2
