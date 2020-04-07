@@ -26,6 +26,7 @@ export function createPeopleLayer(items) {
   // const pixiOverlay = Leaflet.pixiOverlay(function(utils) {
   //   // your drawing code here
   // }, new PIXI.Container())
+
   var easing = BezierEasing(0, 0, 0.25, 1);
   let loader = PIXI.Loader.shared
   let atlas_url = `${API_BASE_URL}/images/atlas.json`
@@ -50,14 +51,15 @@ export function createPeopleLayer(items) {
 
         if (event.type === 'add') {
           items.forEach(function(marker) {
+            const markerContainer = new PIXI.Container();
             var coords = project([marker.lat, marker.long]);
             var markerSprite = new PIXI.Sprite(sheet.textures[marker.atlas]);
-            markerSprite.x = coords.x;
-            markerSprite.y = coords.y;
+            markerContainer.x = coords.x;
+            markerContainer.y = coords.y;
             markerSprite.anchor.set(0.5, 0.5);
             initialScale = invScale / 10 * 4;
-            markerSprite.scale.set(initialScale);
-            markerSprites.push(markerSprite);
+            markerContainer.scale.set(initialScale);
+            markerSprites.push(markerContainer);
             const mask = new PIXI.Graphics();
             markerSprite.addChild(mask);
 
@@ -70,14 +72,48 @@ export function createPeopleLayer(items) {
 
             border.lineStyle(2, 0x18adcb);  //(thickness, color)
             border.drawCircle(0, 0, 23);   //(x,y,radius)
-            border.endFill(); 
-            container.addChild(markerSprite);
+            border.endFill();
+            markerContainer.addChild(markerSprite);
+
+            if (marker.message !== null) {
+              const textSample = new PIXI.Text(marker.message, {
+                fontFamily: 'Lato',
+                fontSize: 14,
+                fill: 'white',
+                align: 'left',
+              });
+              textSample.position.set(10, 4);
+              textSample.calculateBounds();
+              const radius = 10
+
+              const messagePlate = new PIXI.Graphics();
+              const width = textSample.getLocalBounds().width + 20;
+              const height = textSample.getBounds().height + 10;
+              messagePlate.beginFill(0x3F4E5A);
+              messagePlate.drawRoundedRect(0, 0, width, height, radius);
+              messagePlate.endFill();
+              messagePlate.lineStyle(4, 0x2E3942);
+              messagePlate.drawRoundedRect(0, 0, width, height, radius);
+              messagePlate.endFill()
+              messagePlate.addChild(textSample);
+              messagePlate.position.set( 30, -height / 2);
+              const plateMask = new PIXI.Graphics();
+              plateMask.beginFill(0xff0000);
+              plateMask.drawRoundedRect(0, 0, width, height, radius);
+              plateMask.endFill();
+              messagePlate.addChild(plateMask);
+              messagePlate.mask = plateMask;
+
+              messagePlate.addChild(textSample);
+              markerContainer.addChild(messagePlate);
+            }
+
+            container.addChild(markerContainer);
           });
         }
 
         if (event.type === 'zoomanim') {
           var targetZoom = event.zoom;
-          console.log(zoom);
 
           if (targetZoom >= 14 || zoom >= 14) {
             zoomChangeTs = 0;
@@ -128,21 +164,4 @@ export function createPeopleLayer(items) {
     ticker.start();
     map.on('zoomanim', pixiLayer.redraw, pixiLayer);
   });
-
-  // const markers = items.map(item => {
-  //   const text = item.message
-  //     ? String(item.message).replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
-  //     : ''
-  //
-  //   const icon = Leaflet.divIcon({
-  //     className: 'avatar-box',
-  //     html: `<div class="avatar" style="background-image:url('${API_BASE_URL}${item.atlas}'); background-position:-${item.x}px -${item.y}px;"></div>
-  //           ${text ? `<span class="message">${text}</span>` : ''}`
-  //   })
-  //   icon.options.iconSize = [48, 48]
-  //
-  //   return Leaflet.marker(new Leaflet.LatLng(item.lat, item.long), { icon })
-  // })
-  //
-  // Leaflet.layerGroup(markers).addTo(map)
 }
