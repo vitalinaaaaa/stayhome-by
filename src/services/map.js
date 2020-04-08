@@ -28,11 +28,12 @@ export function createPeopleLayer(items) {
   // }, new PIXI.Container())
 
   var easing = BezierEasing(0, 0, 0.25, 1);
-  let loader = PIXI.Loader.shared
-  let atlas_url = `${API_BASE_URL}/images/atlas.json`
+  var pixiPackerParser = require("pixi-packer-parser");
+  let loader = new PIXI.Loader();
+  let atlas_url = `${API_BASE_URL}/images/atlas_en_web.json`
+  loader.use(pixiPackerParser(PIXI));
   loader.add(atlas_url);
   loader.load(function(loader, resources) {
-    let sheet = PIXI.Loader.shared.resources[atlas_url].spritesheet
     var pixiContainer = new PIXI.Container();
     var markerSprites = [];
     var zoomChangeTs = null;
@@ -53,27 +54,27 @@ export function createPeopleLayer(items) {
           items.forEach(function(marker) {
             const markerContainer = new PIXI.Container();
             var coords = project([marker.lat, marker.long]);
-            var markerSprite = new PIXI.Sprite(sheet.textures[marker.atlas]);
+            var markerSprite = new PIXI.Sprite(PIXI.utils.TextureCache[marker.atlas]);
             markerContainer.x = coords.x;
             markerContainer.y = coords.y;
             markerSprite.anchor.set(0.5, 0.5);
-            initialScale = invScale / 10 * 4;
+            initialScale = invScale / 2;
             markerContainer.scale.set(initialScale);
             markerSprites.push(markerContainer);
-            const mask = new PIXI.Graphics();
-            markerSprite.addChild(mask);
+            // const mask = new PIXI.Sprite(PIXI.utils.TextureCache['circle-48.png']);
+            // markerSprite.addChild(mask);
+            // mask.anchor.set(0.5, 0.5);
+            // markerSprite.mask = mask;
 
-            mask.beginFill(0xff0000);
-            mask.drawCircle(0, 0, 24);
-            markerSprite.mask = mask;
+            // const border = new PIXI.Graphics();
+            // markerSprite.addChild(border);
 
-            const border = new PIXI.Graphics();
-            markerSprite.addChild(border);
-
-            border.lineStyle(2, 0x18adcb);  //(thickness, color)
-            border.drawCircle(0, 0, 23);   //(x,y,radius)
-            border.endFill();
+            // border.lineStyle(2, 0x18adcb);  //(thickness, color)
+            // border.drawCircle(0, 0, 23);   //(x,y,radius)
+            // border.endFill();
             markerContainer.addChild(markerSprite);
+            var width = 48;
+            var height = 48;
 
             if (marker.message !== null) {
               const textSample = new PIXI.Text(marker.message, {
@@ -86,26 +87,38 @@ export function createPeopleLayer(items) {
               textSample.calculateBounds();
               const radius = 10
 
-              const messagePlate = new PIXI.Graphics();
-              const width = textSample.getLocalBounds().width + 20;
-              const height = textSample.getBounds().height + 10;
-              messagePlate.beginFill(0x3F4E5A);
-              messagePlate.drawRoundedRect(0, 0, width, height, radius);
-              messagePlate.endFill();
-              messagePlate.lineStyle(4, 0x2E3942);
-              messagePlate.drawRoundedRect(0, 0, width, height, radius);
-              messagePlate.endFill()
-              messagePlate.addChild(textSample);
-              messagePlate.position.set( 30, -height / 2);
-              const plateMask = new PIXI.Graphics();
-              plateMask.beginFill(0xff0000);
-              plateMask.drawRoundedRect(0, 0, width, height, radius);
-              plateMask.endFill();
-              messagePlate.addChild(plateMask);
-              messagePlate.mask = plateMask;
+              // const messagePlate = new PIXI.Graphics();
+              // width = textSample.getLocalBounds().width + 20;
+              // height = textSample.getBounds().height + 10;
+              // messagePlate.beginFill(0x3F4E5A);
+              // messagePlate.drawRoundedRect(0, 0, width, height, radius);
+              // messagePlate.endFill();
+              // messagePlate.lineStyle(4, 0x2E3942);
+              // messagePlate.drawRoundedRect(0, 0, width, height, radius);
+              // messagePlate.endFill()
+              // messagePlate.addChild(textSample);
+              // messagePlate.position.set( 30, -height / 2);
+              // const plateMask = new PIXI.Graphics();
+              // plateMask.beginFill(0xff0000);
+              // plateMask.drawRoundedRect(0, 0, width, height, radius);
+              // plateMask.endFill();
+              // messagePlate.addChild(plateMask);
+              // messagePlate.mask = plateMask;
 
-              messagePlate.addChild(textSample);
-              markerContainer.addChild(messagePlate);
+              // messagePlate.addChild(textSample);
+              // markerContainer.addChild(messagePlate);
+            }
+
+            container.interactive = true;
+            container.hitArea = new PIXI.Rectangle(0, 0, width, height);
+            container.mouseOver = function(mouseData) {
+              container.zOrder = 1000;
+              console.log("over")
+            }
+
+            container.mouseout = function(mouseData) {
+              container.zOrder = 1;
+              console.log("out")
             }
 
             container.addChild(markerContainer);
