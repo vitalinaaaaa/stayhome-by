@@ -7,6 +7,7 @@ import {
   API_BASE_URL,
   MAP_INITIAL_ZOOM,
   MAP_MAX_ZOOM,
+  MAP_MIN_ZOOM,
   MAP_MAX_CLUSTERING_ZOOM,
   MAP_CLUSTER_S_MAX,
   MAP_CLUSTER_M_MAX
@@ -43,7 +44,8 @@ export function initMap(id, location, loadMarkers) {
   map = Leaflet.map(id, {
     center: location,
     zoom: MAP_INITIAL_ZOOM,
-    maxZoom: MAP_MAX_ZOOM
+    maxZoom: MAP_MAX_ZOOM,
+    minZoom: MAP_MIN_ZOOM
   })
 
   Leaflet.mapboxGL({
@@ -67,6 +69,7 @@ export function initMap(id, location, loadMarkers) {
     loadMarkers({"center":[center.lat, center.lng], "radius":radius, "zoom":zoom})
   })
 }
+
 
 export function getRadius() {
   var bounds = map.getBounds();
