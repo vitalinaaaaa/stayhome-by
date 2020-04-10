@@ -12,26 +12,33 @@ import endpoints from '@config/endpoints'
 function App() {
   const [markers, setMarkers] = useState([])
   const [initialLocation, setInitialLocation] = useState(null)
+  const [totalCount, setTotalCount] = useState(0)
 
   useEffect(() => {
-    getApi(endpoints.markers)
-      .then(result => {
-        setMarkers(result.markers)
-        setInitialLocation(result.location)
-      })
-      .catch(err => {
-        // TODO handle error
-        console.error(err)
-      })
+    loadMarkers("")
   }, [])
   
+  function loadMarkers(params) {
+    getApi(endpoints.markers, params)
+        .then(result => {
+          setMarkers(result.markers)
+          setInitialLocation(result.location)
+          setTotalCount(result.count)
+        })
+        .catch(err => {
+          // TODO handle error
+          console.error(err)
+        })
+  }
+
   return (
     <>
-      <Header count={markers.length} />
+      <Header count={totalCount} />
       {initialLocation ? (
         <Map
           location={initialLocation}
           markers={markers}
+          loadMarkers={loadMarkers}
         />
       ) : (
         <Loading />

@@ -5,12 +5,17 @@ import { createPeopleLayer, initMap } from '@services/map'
 import styles from './Map.module.css'
 
 const ID = 'map'
+var isLoaded = false
 
-function Map({ location, markers }) {
+function Map({ location, markers, loadMarkers }) {
   useEffect(() => {
-    initMap(ID, location)
+    if (!isLoaded) {
+      initMap(ID, location, loadMarkers)
+      isLoaded = true
+    }
+
     createPeopleLayer(markers)
-  }, [])
+  }, [markers])
 
   return (
     <div className={styles['map-box']}>
